@@ -1,11 +1,14 @@
 import pandas as pd
-# import cv2
+import numpy as np
+import cv2
 import streamlit as st
 from streamlit_option_menu import option_menu
 # import os
-# from camera_input_live import camera_input_live
+from camera_input_live import camera_input_live
 import sqlite3
 import csv
+
+from Barecode import decode
 
 # con = sqlite3.connect("Moules.db")
 # cur = con.cursor()
@@ -20,7 +23,7 @@ import csv
 
 selected = option_menu(
     menu_title='AppliMoules, (démo pour JMT)',
-    options=["Transferer un moule", "Exporter des données"],
+    options=["Transferer un moule", "Exporter des données","Codebare_test"],
     default_index=0,
     orientation="horizontal",
 )
@@ -31,6 +34,23 @@ if 'LOC' not in st.session_state:
     st.session_state.LOC=''
 if 'av' not in st.session_state:
     st.session_state.av=0
+
+def prise_video():
+    image = camera_input_live()
+    bytes_data = image.getvalue()
+    cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+    # detector = cv2.QRCodeDetector()
+    # detector = cv2.barc
+    # data, bbox, straight_qrcode = detector.detectAndDecode(cv2_img)
+    data=decode(cv2_img)
+    if data:
+        st.write("# Found barcode")
+        st.write(data)
+        with st.expander("Show details"):
+            st.write("BBox:", bbox)
+            st.write("Straight QR code:", straight_qrcode)
+
+
 
 def change():
     st.session_state.av=1
@@ -149,4 +169,6 @@ if selected=="Exporter des données":
         # df=df.reset_index(drop=True)
         st.write(df)
         csv=df.to_csv().encode('utf-8')
-        st.download_button('Téléchargement',csv,'table_moule.csv','text/csv')
+        
+if selected=="Codebare_test":
+    prise_video()
