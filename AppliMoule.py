@@ -38,7 +38,7 @@ if st.session_state.ID!='':
     con.close()
     
     if result is None:
-        st.write(f"Nouveau Moule {ID} confirmez mes vous la création?")
+        st.write(f"Nouveau Moule {ID} confirmez vous la création?")
         colg, cold =st.columns([1,1])
         with colg:
             oui=st.button('Oui')
