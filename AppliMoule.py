@@ -1,8 +1,6 @@
-import pandas as pd
-import cv2
+
 import streamlit as st
-import os
-from camera_input_live import camera_input_live
+
 import sqlite3
 
 # con = sqlite3.connect("Moules.db")
