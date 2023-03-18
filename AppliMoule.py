@@ -1,7 +1,12 @@
 
+# import pandas as pd
+# import cv2
 import streamlit as st
-
+from streamlit_option_menu import option_menu
+# import os
+# from camera_input_live import camera_input_live
 import sqlite3
+import csv
 
 # con = sqlite3.connect("Moules.db")
 # cur = con.cursor()
@@ -14,6 +19,13 @@ import sqlite3
 # con.commit()
 # con.close()
 
+selected = option_menu(
+    menu_title='AppliMoules, (démo pour JMT)',
+    options=["Transferer un moule", "Exporter des données"],
+    default_index=0,
+    orientation="horizontal",
+)
+
 if 'ID' not in st.session_state:
     st.session_state.ID=''
 if 'LOC' not in st.session_state:
@@ -22,86 +34,111 @@ if 'av' not in st.session_state:
     st.session_state.av=0
 
 
-st.header('AppliMoules')
-st.write('démo pour JMT')
+# st.header('AppliMoules')
+# st.write('démo pour JMT')
+if selected=="Transferer un moule":
 
-if st.session_state.av==0:
-    ID=st.text_input("Scannez le moule à traiter :",value='',key='input_ID')
-    st.session_state.ID=ID
 
-if st.session_state.ID!='':
-    
-    con = sqlite3.connect("Moules.db")
-    cur = con.cursor()
-    cur.execute("SELECT Moule_ID FROM moules WHERE Moule_ID = ?", (st.session_state.ID,))
-    result = cur.fetchone()
-    con.close()
-    
-    if result is None:
-        st.write(f"Nouveau Moule {ID} confirmez vous la création?")
-        colg, cold =st.columns([1,1])
-        with colg:
-            oui=st.button('Oui')
-            if oui:
-                con = sqlite3.connect("Moules.db")
-                cur = con.cursor()
-                cur.execute("INSERT INTO moules (Moule_ID, Emplacement) VALUES (?, ?)", (st.session_state.ID, ''))
-                con.commit()
-                con.close()
+    if st.session_state.av==0:
+        ID=st.text_input("Scannez le moule à traiter :",value='',key='input_ID')
+        st.session_state.ID=ID
 
-                st.session_state.ID=ID
-                st.session_state.LOC=''
-                st.session_state.av=1
-        with cold:
-            non=st.button('Non')
-            
-
-    else:
+    if st.session_state.ID!='':
         
         con = sqlite3.connect("Moules.db")
         cur = con.cursor()
-        cur.execute("SELECT Emplacement FROM moules WHERE Moule_ID = ?", (st.session_state.ID,))
+        cur.execute("SELECT Moule_ID FROM moules WHERE Moule_ID = ?", (st.session_state.ID,))
         result = cur.fetchone()
         con.close()
-        st.session_state.LOC=result[0]
-        st.session_state.av=1
+        
+        if result is None:
+            st.write(f"Nouveau Moule {ID} confirmez mes vous la création?")
+            colg, cold =st.columns([1,1])
+            with colg:
+                oui=st.button('Oui')
+                if oui:
+                    con = sqlite3.connect("Moules.db")
+                    cur = con.cursor()
+                    cur.execute("INSERT INTO moules (Moule_ID, Emplacement) VALUES (?, ?)", (st.session_state.ID, ''))
+                    con.commit()
+                    con.close()
 
-
-if st.session_state.av>0:
-    st.write('moule selectionné',st.session_state.ID)
-    st.write(f'Emplacement actuel du moule {st.session_state.ID} :',st.session_state.LOC)
-    LOC=st.text_input("Scannez le nouvel emplacement du moule :")
-
-    if LOC!='':
-        st.session_state.LOC=LOC
-        st.write('Confirmez le transfert du moule')
-        colg2, cold2 =st.columns([1,1])
-        with colg2:
-            oui2=st.button('Oui')
-            if oui2:
-                con = sqlite3.connect("Moules.db")
-                cur = con.cursor()
-                cur.execute("UPDATE moules SET Emplacement = ? WHERE Moule_ID = ?", (st.session_state.LOC,st.session_state.ID))
-                con.commit()
-                con.close()
-                st.session_state.av=2                
+                    st.session_state.ID=ID
+                    st.session_state.LOC=''
+                    st.session_state.av=1
+            with cold:
+                non=st.button('Non')
                 
-                
-        with cold2:
-            non2=st.button('Non')
-            if non2:
-                st.session_state.av=3
-def rerun():
-        st.session_state.ID=''
-        st.session_state.LOC=''
-        st.session_state.av=0        
-        # st.experimental_rerun()
-    
-if st.session_state.av==2:   
-    st.write(f"Moule {st.session_state.ID} transféré à l'emplacement {LOC}")
-    suivant=st.button('Cliquez pour passer au scan suivant',on_click=rerun)
+
+        else:
+            
+            con = sqlite3.connect("Moules.db")
+            cur = con.cursor()
+            cur.execute("SELECT Emplacement FROM moules WHERE Moule_ID = ?", (st.session_state.ID,))
+            result = cur.fetchone()
+            con.close()
+            st.session_state.LOC=result[0]
+            st.session_state.av=1
 
 
-if st.session_state.av==3: 
-    st.write('transfert annulé')
-    suivant2=st.button('Cliquez pour passer au scan suivant',on_click=rerun)
+    if st.session_state.av>0:
+        st.write('moule selectionné',st.session_state.ID)
+        st.write(f'Emplacement actuel du moule {st.session_state.ID} :',st.session_state.LOC)
+        LOC=st.text_input("Scannez le nouvel emplacement du moule :")
+
+        if LOC!='':
+            st.session_state.LOC=LOC
+            st.write('Confirmez le transfert du moule')
+            colg2, cold2 =st.columns([1,1])
+            with colg2:
+                oui2=st.button('Oui')
+                if oui2:
+                    con = sqlite3.connect("Moules.db")
+                    cur = con.cursor()
+                    cur.execute("UPDATE moules SET Emplacement = ? WHERE Moule_ID = ?", (st.session_state.LOC,st.session_state.ID))
+                    con.commit()
+                    con.close()
+                    st.session_state.av=2                
+                    
+                    
+            with cold2:
+                non2=st.button('Non')
+                if non2:
+                    st.session_state.av=3
+    def rerun():
+            st.session_state.ID=''
+            st.session_state.LOC=''
+            st.session_state.av=0        
+            # st.experimental_rerun()
+        
+    if st.session_state.av==2:   
+        st.write(f"Moule {st.session_state.ID} transféré à l'emplacement {LOC}")
+        suivant=st.button('Cliquez pour passer au scan suivant',on_click=rerun)
+
+
+    if st.session_state.av==3: 
+        st.write('transfert annulé')
+        suivant2=st.button('Cliquez pour passer au scan suivant',on_click=rerun)
+
+if selected=="Exporter des données":
+
+    validation_export=st.button("Exporter la table des moules")
+    if validation_export:                            
+        con = sqlite3.connect("Moules.db")
+        cur = con.cursor()
+        cur.execute('SELECT * FROM Moules')
+        rows = cur.fetchall()
+        fichier='table_moule.csv'
+        with open(fichier, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            # Écriture de l'en-tête
+            writer.writerow([i[0] for i in cur.description])
+            # Écriture des données
+            for row in rows:
+                writer.writerow(row)
+            # Fermeture de la connexion à la base de données SQLite3
+        cur.close()
+        con.close()
+
+        st.download_button('Téléchargement','text_contents',fichier,'text/csv')
+
