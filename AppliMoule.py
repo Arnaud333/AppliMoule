@@ -37,18 +37,22 @@ if 'av' not in st.session_state:
 
 def prise_video():
     image = camera_input_live()
-    bytes_data = image.getvalue()
-    cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
-    # detector = cv2.QRCodeDetector()
-    # detector = cv2.barc
-    # data, bbox, straight_qrcode = detector.detectAndDecode(cv2_img)
-    data=decode(cv2_img)
-    if data:
-        st.write("# Found barcode")
-        st.write(data)
-        with st.expander("Show details"):
-            st.write("BBox:", bbox)
-            st.write("Straight QR code:", straight_qrcode)
+    # st.write('image',image)
+    if image is not None:
+        bytes_data = image.getvalue()
+        cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+        # st.write('image',cv2_img)
+        if cv2_img[0][0][0]!=0:
+            # detector = cv2.QRCodeDetector()
+            # detector = cv2.barc
+            # data, bbox, straight_qrcode = detector.detectAndDecode(cv2_img)
+            data=decode(cv2_img)
+            if data:
+                st.write("# Found barcode")
+                st.write(data)
+                # with st.expander("Show details"):
+                #     st.write("BBox:", bbox)
+                #     st.write("Straight QR code:", straight_qrcode)
 
 
 
