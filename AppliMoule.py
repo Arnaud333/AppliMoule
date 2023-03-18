@@ -47,7 +47,7 @@ def prise_video():
             # detector = cv2.barc
             # data, bbox, straight_qrcode = detector.detectAndDecode(cv2_img)
             data=decode(cv2_img)
-            if data:
+            if data!=False:
                 st.write("# Found barcode")
                 st.write(data)
                 # with st.expander("Show details"):
