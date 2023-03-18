@@ -37,7 +37,7 @@ if 'av' not in st.session_state:
 
 def prise_video():
     image = camera_input_live()
-    st.write('image',image)
+    st.image(image)
     if image is not None:
         bytes_data = image.getvalue()
         cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
