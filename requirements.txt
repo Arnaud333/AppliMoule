@@ -1,8 +1,8 @@
 numpy==1.24.2
-#opencv_contrib_python==4.7.0.72
+opencv-contrib-python-headless==4.7.0.72
 pandas==1.5.3
 pyzbar==0.1.9
 streamlit==1.19.0
 streamlit_camera_input_live==0.2.0
 streamlit_option_menu==0.3.2
-opencv-contrib-python-headless
+
