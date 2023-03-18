@@ -4,16 +4,16 @@ import cv2
 def decode(image):
     # decodes all barcodes from an image
     decoded_objects = pyzbar.decode(image)
-    for obj in decoded_objects:
-        # draw the barcode
-        # print("detected barcode:", obj)
-        image = draw_barcode(obj, image)
-        # print barcode type & data
-        # print("Type:", obj.type)
-        # print("Data:", obj.data)
-        # print()
+    # for obj in decoded_objects:
+    #     # draw the barcode
+    #     # print("detected barcode:", obj)
+    #     image = draw_barcode(obj, image)
+    #     # print barcode type & data
+    #     # print("Type:", obj.type)
+    #     # print("Data:", obj.data)
+    #     # print()
 
-    return obj.data
+    return decoded_objects[0].data
 def draw_barcode(decoded, image):
     # n_points = len(decoded.polygon)
     # for i in range(n_points):
