@@ -1,5 +1,4 @@
-
-# import pandas as pd
+import pandas as pd
 # import cv2
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -33,15 +32,21 @@ if 'LOC' not in st.session_state:
 if 'av' not in st.session_state:
     st.session_state.av=0
 
+def change():
+    st.session_state.av=1
 
 # st.header('AppliMoules')
 # st.write('démo pour JMT')
 if selected=="Transferer un moule":
+    
 
+    if st.session_state.av<2:
 
-    if st.session_state.av==0:
-        ID=st.text_input("Scannez le moule à traiter :",value='',key='input_ID')
+        ID=st.text_input("Scannez le moule à traiter :",value='',on_change=change,key='input_ID')
         st.session_state.ID=ID
+        if ID!='':
+            st.session_state.av=1
+
 
     if st.session_state.ID!='':
         
@@ -65,9 +70,9 @@ if selected=="Transferer un moule":
 
                     st.session_state.ID=ID
                     st.session_state.LOC=''
-                    st.session_state.av=1
-            with cold:
-                non=st.button('Non')
+                    st.session_state.av=2
+            # with cold:
+            #     non=st.button('Non')
                 
 
         else:
@@ -78,10 +83,10 @@ if selected=="Transferer un moule":
             result = cur.fetchone()
             con.close()
             st.session_state.LOC=result[0]
-            st.session_state.av=1
+            st.session_state.av=2
 
 
-    if st.session_state.av>0:
+    if st.session_state.av>1:
         st.write('moule selectionné',st.session_state.ID)
         st.write(f'Emplacement actuel du moule {st.session_state.ID} :',st.session_state.LOC)
         LOC=st.text_input("Scannez le nouvel emplacement du moule :")
@@ -98,25 +103,25 @@ if selected=="Transferer un moule":
                     cur.execute("UPDATE moules SET Emplacement = ? WHERE Moule_ID = ?", (st.session_state.LOC,st.session_state.ID))
                     con.commit()
                     con.close()
-                    st.session_state.av=2                
+                    st.session_state.av=3                
                     
                     
             with cold2:
                 non2=st.button('Non')
                 if non2:
-                    st.session_state.av=3
+                    st.session_state.av=4
     def rerun():
             st.session_state.ID=''
             st.session_state.LOC=''
             st.session_state.av=0        
             # st.experimental_rerun()
         
-    if st.session_state.av==2:   
+    if st.session_state.av==3:   
         st.write(f"Moule {st.session_state.ID} transféré à l'emplacement {LOC}")
         suivant=st.button('Cliquez pour passer au scan suivant',on_click=rerun)
 
 
-    if st.session_state.av==3: 
+    if st.session_state.av==4: 
         st.write('transfert annulé')
         suivant2=st.button('Cliquez pour passer au scan suivant',on_click=rerun)
 
@@ -139,6 +144,9 @@ if selected=="Exporter des données":
             # Fermeture de la connexion à la base de données SQLite3
         cur.close()
         con.close()
-
-        st.download_button('Téléchargement','text_contents',fichier,'text/csv')
-
+        df = pd.read_csv(fichier)
+        df=df.set_index('Moule_ID')
+        # df=df.reset_index(drop=True)
+        st.write(df)
+        csv=df.to_csv().encode('utf-8')
+        st.download_button('Téléchargement',csv,'table_moule.csv','text/csv')
