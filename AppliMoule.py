@@ -34,6 +34,9 @@ if 'LOC' not in st.session_state:
     st.session_state.LOC=''
 if 'av' not in st.session_state:
     st.session_state.av=0
+if 'test' not in st.session_state:
+    st.session_state.test=''
+
 
 def prise_video():
     image = camera_input_live()
@@ -48,8 +51,9 @@ def prise_video():
             # data, bbox, straight_qrcode = detector.detectAndDecode(cv2_img)
             data=decode(cv2_img)
             if data!=False:
+                st.session_state.test=data
                 st.write("# Found barcode")
-                st.write(data)
+                st.write("# Found barcode",st.session_state.test)
                 # with st.expander("Show details"):
                 #     st.write("BBox:", bbox)
                 #     st.write("Straight QR code:", straight_qrcode)
