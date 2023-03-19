@@ -22,8 +22,8 @@ st.markdown("""
                .block-container {
                     padding-top: 1rem;
                     padding-bottom: 0rem;
-                    padding-left: 0,5rem;
-                    padding-right: 0,5rem;
+                    padding-left: 0,2rem;
+                    padding-right: 0,2rem;
                 }
         </style>
         """, unsafe_allow_html=True)
