@@ -23,7 +23,7 @@ from Barecode import decode
 
 selected = option_menu(
     menu_title='AppliMoules, (démo pour JMT)',
-    options=["Gestion Moules", "Exporter des données","Codebare_test"],
+    options=["Gestion Moules", "Exporter des données","Codebare (test)"],
     icons=['boxes', 'download','upc-scan'],
     default_index=0,
     orientation="horizontal",
@@ -179,5 +179,5 @@ if selected=="Exporter des données":
         st.write(df)
         csv=df.to_csv().encode('utf-8')
         
-if selected=="Codebare_test":
+if selected=="Codebare (test)":
     prise_video()
