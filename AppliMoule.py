@@ -40,7 +40,7 @@ st.markdown("""
 # con.close()
 
 selected = option_menu(
-    menu_title='Applicaton de gestion des moules (démo pour JMT)',
+    menu_title='Outil gestion des moules (démo pour JMT)',
     options=["Gestion Moules", "Export Table","Scan (test)"],
     icons=['boxes', 'download','upc-scan'],
     default_index=0,
