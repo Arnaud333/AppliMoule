@@ -10,6 +10,14 @@ import csv
 
 from Barecode import decode
 
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
 # con = sqlite3.connect("Moules.db")
 # cur = con.cursor()
 # cur.execute('''
