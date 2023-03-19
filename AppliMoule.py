@@ -41,7 +41,7 @@ st.markdown("""
 
 selected = option_menu(
     menu_title='AppliMoules, (démo pour JMT)',
-    options=["Gestion Moules", "Export table","Codebare (test)"],
+    options=["Gestion Moules", "Export table","Scan (test)"],
     icons=['boxes', 'download','upc-scan'],
     default_index=0,
     orientation="horizontal",
@@ -197,5 +197,5 @@ if selected=="Export table":
         st.write(df)
         csv=df.to_csv().encode('utf-8')
         
-if selected=="Codebare (test)":
+if selected=="Scan (test)":
     prise_video()
