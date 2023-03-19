@@ -41,7 +41,7 @@ st.markdown("""
 
 selected = option_menu(
     menu_title='AppliMoules, (démo pour JMT)',
-    options=["Gestion Moules", "Exporter des données","Codebare (test)"],
+    options=["Gestion Moules", "Export table","Codebare (test)"],
     icons=['boxes', 'download','upc-scan'],
     default_index=0,
     orientation="horizontal",
@@ -172,7 +172,7 @@ if selected=="Gestion Moules":
         st.write('transfert annulé')
         suivant2=st.button('Cliquez pour passer au scan suivant',on_click=rerun)
 
-if selected=="Exporter des données":
+if selected=="Export table":
 
     validation_export=st.button("Exporter la table des moules")
     if validation_export:                            
