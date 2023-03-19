@@ -201,6 +201,7 @@ if selected=="Export Table":
                 # df=df.reset_index(drop=True)
                 st.write(df)
                 csv=df.to_csv().encode('utf-8')
+                st.download_button('Télécharger la table',csv,'Table_Moules.csv')
         with col3:
             pass
         
