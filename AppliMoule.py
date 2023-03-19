@@ -23,7 +23,8 @@ from Barecode import decode
 
 selected = option_menu(
     menu_title='AppliMoules, (démo pour JMT)',
-    options=["Transferer un moule", "Exporter des données","Codebare_test"],
+    options=["Gestion Moules", "Exporter des données","Codebare_test"],
+    icons=['boxes', 'download','upc-scan'],
     default_index=0,
     orientation="horizontal",
 )
@@ -65,12 +66,12 @@ def change():
 
 # st.header('AppliMoules')
 # st.write('démo pour JMT')
-if selected=="Transferer un moule":
+if selected=="Gestion Moules":
     
 
     if st.session_state.av<2:
 
-        ID=st.text_input("Scannez le moule à traiter :",value='',on_change=change,key='input_ID')
+        ID=st.text_input("Scannez ou saisissez l'ID moule à traiter :",value='',on_change=change,key='input_ID')
         st.session_state.ID=ID
         if ID!='':
             st.session_state.av=1
@@ -117,7 +118,7 @@ if selected=="Transferer un moule":
     if st.session_state.av>1:
         st.write('moule selectionné',st.session_state.ID)
         st.write(f'Emplacement actuel du moule {st.session_state.ID} :',st.session_state.LOC)
-        LOC=st.text_input("Scannez le nouvel emplacement du moule :")
+        LOC=st.text_input("Scannez ou saisissez le nouvel emplacement du moule :")
 
         if LOC!='':
             st.session_state.LOC=LOC
