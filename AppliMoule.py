@@ -175,7 +175,7 @@ if selected=="Gestion Moules":
 if selected=="Export Table":
     col1, col2, col3 = st.columns([2,3,2])
     with col1:
-        st.write('        ')
+        st.write('...........')
     with col2:
         validation_export=st.button("Exporter la table des moules")
         if validation_export:                            
