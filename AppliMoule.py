@@ -22,8 +22,8 @@ st.markdown("""
                .block-container {
                     padding-top: 1rem;
                     padding-bottom: 0rem;
-                    padding-left: 0rem;
-                    padding-right: 0rem;
+                    padding-left: 1rem;
+                    padding-right: 1rem;
                 }
         </style>
         """, unsafe_allow_html=True)
@@ -173,7 +173,7 @@ if selected=="Gestion Moules":
         suivant2=st.button('Cliquez pour passer au scan suivant',on_click=rerun)
 
 if selected=="Export Table":
-    col1, col2, col3 = st.columns([1,3,1])
+    col1, col2, col3 = st.columns([2,3,2])
     with col1:
         pass
     with col2:
