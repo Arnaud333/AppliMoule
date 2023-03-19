@@ -22,8 +22,8 @@ st.markdown("""
                .block-container {
                     padding-top: 1rem;
                     padding-bottom: 0rem;
-                    padding-left: 1rem;
-                    padding-right: 1rem;
+                    padding-left: 0rem;
+                    padding-right: 0rem;
                 }
         </style>
         """, unsafe_allow_html=True)
@@ -173,34 +173,36 @@ if selected=="Gestion Moules":
         suivant2=st.button('Cliquez pour passer au scan suivant',on_click=rerun)
 
 if selected=="Export Table":
-    col1, col2, col3 = st.columns([2,3,2])
-    with col1:
-        st.write('...........')
-    with col2:
-        validation_export=st.button("Exporter la table des moules")
-        if validation_export:                            
-            con = sqlite3.connect("Moules.db")
-            cur = con.cursor()
-            cur.execute('SELECT * FROM Moules')
-            rows = cur.fetchall()
-            fichier='table_moule.csv'
-            with open(fichier, 'w', newline='') as csvfile:
-                writer = csv.writer(csvfile)
-                # Écriture de l'en-tête
-                writer.writerow([i[0] for i in cur.description])
-                # Écriture des données
-                for row in rows:
-                    writer.writerow(row)
-                # Fermeture de la connexion à la base de données SQLite3
-            cur.close()
-            con.close()
-            df = pd.read_csv(fichier)
-            df=df.set_index('Moule_ID')
-            # df=df.reset_index(drop=True)
-            st.write(df)
-            csv=df.to_csv().encode('utf-8')
-    with col3:
-        pass
+    Exp=st.container()
+    with Exp:
+        col1, col2, col3 = st.columns([3,3,3])
+        with col1:
+            pass
+        with col2:
+            validation_export=st.button("Exporter la table des moules")
+            if validation_export:                            
+                con = sqlite3.connect("Moules.db")
+                cur = con.cursor()
+                cur.execute('SELECT * FROM Moules')
+                rows = cur.fetchall()
+                fichier='table_moule.csv'
+                with open(fichier, 'w', newline='') as csvfile:
+                    writer = csv.writer(csvfile)
+                    # Écriture de l'en-tête
+                    writer.writerow([i[0] for i in cur.description])
+                    # Écriture des données
+                    for row in rows:
+                        writer.writerow(row)
+                    # Fermeture de la connexion à la base de données SQLite3
+                cur.close()
+                con.close()
+                df = pd.read_csv(fichier)
+                df=df.set_index('Moule_ID')
+                # df=df.reset_index(drop=True)
+                st.write(df)
+                csv=df.to_csv().encode('utf-8')
+        with col3:
+            pass
         
 if selected=="Scan (test)":
     prise_video()
