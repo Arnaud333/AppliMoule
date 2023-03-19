@@ -40,7 +40,7 @@ st.markdown("""
 # con.close()
 
 selected = option_menu(
-    menu_title='Outil gestion des moules (démo pour JMT)',
+    menu_title='Application de gestion des moules             (démo pour JMT)',
     options=["Gestion Moules", "Export Table","Scan (test)"],
     icons=['boxes', 'download','upc-scan'],
     default_index=0,
@@ -173,29 +173,34 @@ if selected=="Gestion Moules":
         suivant2=st.button('Cliquez pour passer au scan suivant',on_click=rerun)
 
 if selected=="Export Table":
-
-    validation_export=st.button("Exporter la table des moules")
-    if validation_export:                            
-        con = sqlite3.connect("Moules.db")
-        cur = con.cursor()
-        cur.execute('SELECT * FROM Moules')
-        rows = cur.fetchall()
-        fichier='table_moule.csv'
-        with open(fichier, 'w', newline='') as csvfile:
-            writer = csv.writer(csvfile)
-            # Écriture de l'en-tête
-            writer.writerow([i[0] for i in cur.description])
-            # Écriture des données
-            for row in rows:
-                writer.writerow(row)
-            # Fermeture de la connexion à la base de données SQLite3
-        cur.close()
-        con.close()
-        df = pd.read_csv(fichier)
-        df=df.set_index('Moule_ID')
-        # df=df.reset_index(drop=True)
-        st.write(df)
-        csv=df.to_csv().encode('utf-8')
+    col1, col2, col3 = st.columns([1,3,1])
+    with col1:
+        pass
+    with col2:
+        validation_export=st.button("Exporter la table des moules")
+        if validation_export:                            
+            con = sqlite3.connect("Moules.db")
+            cur = con.cursor()
+            cur.execute('SELECT * FROM Moules')
+            rows = cur.fetchall()
+            fichier='table_moule.csv'
+            with open(fichier, 'w', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                # Écriture de l'en-tête
+                writer.writerow([i[0] for i in cur.description])
+                # Écriture des données
+                for row in rows:
+                    writer.writerow(row)
+                # Fermeture de la connexion à la base de données SQLite3
+            cur.close()
+            con.close()
+            df = pd.read_csv(fichier)
+            df=df.set_index('Moule_ID')
+            # df=df.reset_index(drop=True)
+            st.write(df)
+            csv=df.to_csv().encode('utf-8')
+    with col3:
+        pass
         
 if selected=="Scan (test)":
     prise_video()
