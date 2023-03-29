@@ -5,7 +5,7 @@ from streamlit_option_menu import option_menu
 import csv
 # import os
 import sqlite3
-
+# from st_aggrid import AgGrid
 from streamlit_modal import Modal
 from Class_Moule import Moule
 from Class_Moule import get_values_to_df
@@ -102,12 +102,17 @@ if selected=="Gestion Moules":
         else:
             
             st.session_state.LOC=moule.loc
-            st.session_state.av=2
             st.session_state.moule=moule
+            st.session_state.desc=moule.desc
+            
+            st.session_state.av=2
+
+
     if st.session_state.av>1:
         moule=st.session_state.moule
+       
         st.write('moule selectionné',st.session_state.ID)
-        st.write(f'Description du moule : ',st.session_state.desc)
+        st.write(f'Description du moule : ',moule.desc)
         st.write(f'Emplacement actuel du moule {st.session_state.ID} :',st.session_state.LOC)
         LOC=st.text_input("Scannez ou saisissez le nouvel emplacement du moule :")
 
