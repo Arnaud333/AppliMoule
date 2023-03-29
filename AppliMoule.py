@@ -5,7 +5,7 @@ from streamlit_option_menu import option_menu
 import csv
 # import os
 import sqlite3
-from st_aggrid import AgGrid
+
 from streamlit_modal import Modal
 from Class_Moule import Moule
 from Class_Moule import get_values_to_df
