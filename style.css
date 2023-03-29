@@ -1,0 +1,46 @@
+body {
+    background-color: lightgoldenrodyellow;
+  }
+  /* div[data-testid="stHorizontalBlock"] > div:first-of-type { */
+  div[data-testid="stHorizontalBlock"] {
+    /* background-color: red; */
+    border-style: solid;
+    border-width: 1px;
+    border-color: #cccccc;
+    padding: 5px;
+    margin-bottom: 0px;
+    margin-top: 0;
+    line-height: 2;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+  div[data-testid="stHorizontalBlock"] > div:nth-of-type(2) {
+    /* div[data-testid="stHorizontalBlock"] { */
+      /* background-color: red; */
+   
+      text-align: left;
+
+    }
+div[data-testid="stHorizontalBlock"] > div:nth-of-type(4) {
+        /* div[data-testid="stHorizontalBlock"] { */
+          /* background-color: red; */
+          text-align: center;
+          align-items: center;
+          padding: 0px;
+        }
+
+  div[data-testid="stVerticalBlock"]> div:first-of-type  {
+    /* background-color: red; */
+    /* border-style: solid; */
+    /* border-width: 1px; */
+    /* border-color: #0f0e0e;  */
+   
+    font-weight: bold;
+    margin-bottom: 0px;
+    margin-top: 0;
+    /* line-height: 2;
+    text-align: left;
+    align-items: center;
+    justify-content: center; */
+  }
